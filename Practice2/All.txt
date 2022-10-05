@@ -55,9 +55,9 @@ sum((a - b)**2)**.5
 Найдите в Интернете ссылку на любой csv файл и сформируйте из него фрейм данных (например, коллекцию фреймов данных можно найти здесь: https://github.com/akmand/datasets).
 
 import pandas as pd
-​
+
 url = 'https://raw.githubusercontent.com/akmand/datasets/main/airlines.csv'
-​
+
 dataframe = pd.read_csv(url)
 
 
@@ -68,8 +68,28 @@ print(dataframe.head(3))
 print(dataframe.tail(3))
 print(dataframe.shape)
 print(dataframe.describe())
-​
+
 print(dataframe.iloc[1:5])
-​
+
 print(dataframe[dataframe['Time'] == '15'].head(2))
 
+
+3.3.2
+Загрузить фрейм данных по ссылке: https://raw.githubusercontent.com/akmand/datasets/master/iris.csv. Необходимо выполнить нормализацию первого числового признака (sepal_length_cm) с использованием минимаксного преобразования, а второго (sepal_width_cm) с задействованием z-масштабирования.
+
+import numpy as np
+import pandas as pd
+from sklearn import preprocessing
+
+url = 'https://raw.githubusercontent.com/akmand/datasets/master/iris.csv'
+dataframe = pd.read_csv(url)
+val_array = np.array(dataframe['sepal_length_cm'])
+normal_array = preprocessing.MinMaxScaler(val_array)
+print(normal_array)
+
+val_Array = np.array(dataframe[['sepal_width_cm']])
+scaler = preprocessing.StandardScaler()
+normal_Array = scaler.fit_transform(val_Array)
+print(normal_Array)
+print(round(normal_Array.mean()))
+print(normal_Array.std())
