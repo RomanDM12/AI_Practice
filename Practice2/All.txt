@@ -59,7 +59,7 @@ import pandas as pd
 url = 'https://raw.githubusercontent.com/akmand/datasets/main/airlines.csv'
 
 dataframe = pd.read_csv(url)
-
+dataframe
 
 2.3.3 Задание
 Проделайте с получившемся из предыдущего задания фреймом данных те же действия, что и в примерах 2.2.5-2.2.7.
