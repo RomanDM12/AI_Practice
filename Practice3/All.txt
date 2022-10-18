@@ -1,0 +1,76 @@
+Задание 1.3.1
+Задайте 4 точки в трехмерном пространстве, рассчитайте между ними расстояния по описанным в примере выше метрикам. Отобразите точки в трехмерном пространстве.
+
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection = '3d')
+
+ax.scatter(2, 1, 1)
+ax.scatter(4, 5, 7)
+ax.scatter(8, 5, 1)
+ax.scatter(9, 9, 8)
+
+p1 = np.array([2, 1, 1])
+p2 = np.array([4, 5 ,7])
+p3 = np.array([8, 5, 1])
+p4 = np.array([9, 9, 8])
+print(np.linalg.norm(p1 - p2 - p3 - p4))
+print(np.linalg.norm(p1 - p2 - p3 - p4) ** 2)
+print(np.linalg.norm(p1 - p2 - p3 - p4, ord = np.inf))
+print(np.linalg.norm(p1 - p2 - p3 - p4, ord = 1))
+
+
+
+Задание 2.3.1
+Для предыдущего примера поэкспериментируйте с параметрами классификатора:
+
+1.Установите другое количество ближайших соседей (k = 1, 5, 10).
+2.Установите размер тестовой выборки 15% от всего датасета.
+3.Постройте графики и оцените качество моделей, проанализируйте результаты.
+
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+
+iris = sns.load_dataset('iris')
+
+x_train, x_test, y_train, y_test = train_test_split(iris.iloc[:, :-1],iris.iloc[:, -1], test_size = 0.15)
+
+model = KNeighborsClassifier(n_neighbors = 5)
+model.fit(x_train, y_train)
+
+y_pred = model.predict(x_test)
+
+plt.figure(figsize=(10, 8))
+sns.scatterplot(x = 'petal_width', y = 'petal_length', data = iris, hue = 'species', s = 70)
+plt.xlabel('Длиная лепестка, см')
+plt.ylabel('Ширина лепестка, см')
+plt.legend(loc = 2)
+plt.grid()
+
+for i in range(len(y_test)):
+    if np.array(y_test)[i] != y_pred[i]:
+        plt.scatter(x_test.iloc[i, 3], x_test.ilocp[i, 2], color = 'red', s = 150)
+print(f'accuracy: {accuracy_score(y_test, y_pred) :.5}')
+
+
+
+Задание 3.3.2
+Определите набор признаков человека, по аналогии из РТ 1, – например, цвет глаз и конвертируйте его в матрицу признаков.
+
+from sklearn.feature_extraction import DictVectorizer
+
+data_dict = [{"голубой": 4, "карие": 2},
+            {"серый": 5, "зеленый": 3},
+            {"голубой": 2, "серый": 1}]
+
+dictvec = DictVectorizer(sparse = False)
+matrix = dictvec.fit_transform(data_dict)
+matrix
